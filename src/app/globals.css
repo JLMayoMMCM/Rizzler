@@ -1,0 +1,403 @@
+@import "tailwindcss";
+
+/* ----------------------------------------------------------------------------
+   Design tokens — "Parchment" (light) and "Midnight" (dark)
+---------------------------------------------------------------------------- */
+:root {
+  --bg: #f3e8cf;
+  --bg-grad-1: #f7efdb;
+  --bg-grad-2: #ecdcb9;
+  --paper: #fdf8ed;
+  --paper-2: #f1e4c8;
+  --ink: #241a11;
+  --ink-soft: #463726;
+  --ink-faint: #6b5740;
+  --accent: #8c1c13;        /* accent used as TEXT/icon on light surfaces */
+  --accent-soft: #a82a1e;
+  --accent-bg: #8c1c13;     /* solid fill for buttons/pills */
+  --on-accent: #fdf2ea;     /* readable text ON accent-bg */
+  --gold: #9a6f08;          /* darkened for AA contrast on parchment */
+  --gold-soft: #c79212;
+  --success: #2e7d32;
+  --line: rgba(36, 26, 17, 0.16);
+  --line-strong: rgba(36, 26, 17, 0.3);
+  --shadow: rgba(36, 26, 17, 0.22);
+  --ring: rgba(140, 28, 19, 0.4);
+  --img-filter: sepia(0.28) saturate(0.92) contrast(1.02);
+  color-scheme: light;
+}
+
+[data-theme="dark"] {
+  --bg: #14110d;
+  --bg-grad-1: #1c1812;
+  --bg-grad-2: #0e0b07;
+  --paper: #221c14;
+  --paper-2: #2c2419;
+  --ink: #f3ebda;
+  --ink-soft: #d8c8a8;
+  --ink-faint: #ab9676;
+  --accent: #f0897c;        /* lighter coral reads as text on dark */
+  --accent-soft: #f5a99e;
+  --accent-bg: #a82f23;     /* deep red fill keeps white text legible */
+  --on-accent: #fff7f3;
+  --gold: #e6bb4e;
+  --gold-soft: #f2cf73;
+  --success: #6fcf76;
+  --line: rgba(243, 235, 218, 0.14);
+  --line-strong: rgba(243, 235, 218, 0.28);
+  --shadow: rgba(0, 0, 0, 0.55);
+  --ring: rgba(240, 137, 124, 0.45);
+  --img-filter: sepia(0.18) saturate(0.95) brightness(0.92) contrast(1.04);
+  color-scheme: dark;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 90px;
+}
+
+body {
+  margin: 0;
+  background:
+    radial-gradient(1200px 700px at 80% -10%, var(--bg-grad-1), transparent 60%),
+    radial-gradient(900px 600px at 0% 10%, var(--bg-grad-2), transparent 55%),
+    var(--bg);
+  color: var(--ink);
+  font-family: var(--font-serif), Georgia, "Times New Roman", serif;
+  font-size: 1.0625rem;
+  line-height: 1.78;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  transition: background-color 0.4s ease, color 0.4s ease;
+  min-height: 100vh;
+}
+
+/* subtle paper grain */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.04;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+::selection {
+  background: var(--accent);
+  color: #fff;
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--font-display), Georgia, serif;
+  font-weight: 700;
+  line-height: 1.12;
+  color: var(--ink);
+  letter-spacing: -0.01em;
+}
+
+a {
+  color: var(--accent);
+  text-decoration-color: var(--ring);
+  text-underline-offset: 3px;
+}
+
+.font-sans { font-family: var(--font-sans), system-ui, sans-serif; }
+.font-display { font-family: var(--font-display), Georgia, serif; }
+
+/* ----------------------------------------------------------------------------
+   Layout helpers
+---------------------------------------------------------------------------- */
+.shell {
+  position: relative;
+  z-index: 1;
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 0 1.25rem;
+}
+
+.prose-col {
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.prose-col p { margin: 0 0 1.15rem; }
+.prose-col h3 {
+  font-size: clamp(1.35rem, 2.6vw, 1.7rem);
+  margin: 2.4rem 0 0.7rem;
+}
+.prose-col h4 {
+  font-size: 1.12rem;
+  margin: 1.8rem 0 0.4rem;
+  color: var(--accent);
+  font-family: var(--font-sans), sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+}
+
+.lede {
+  font-size: clamp(1.12rem, 2.2vw, 1.4rem);
+  line-height: 1.6;
+  color: var(--ink-soft);
+  font-style: italic;
+}
+
+.section-eyebrow {
+  font-family: var(--font-sans), sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.32em;
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--accent);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+.section-eyebrow::before {
+  content: "";
+  width: 28px;
+  height: 1px;
+  background: var(--accent);
+  display: inline-block;
+}
+
+.section-title {
+  font-size: clamp(1.9rem, 4.5vw, 3rem);
+  margin: 0.5rem 0 0.4rem;
+}
+
+.divider-orn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  margin: 4rem 0;
+  color: var(--gold);
+}
+.divider-orn::before,
+.divider-orn::after {
+  content: "";
+  height: 1px;
+  width: min(120px, 22vw);
+  background: linear-gradient(90deg, transparent, var(--line-strong), transparent);
+}
+
+/* ----------------------------------------------------------------------------
+   Cards & surfaces
+---------------------------------------------------------------------------- */
+.card {
+  background: linear-gradient(160deg, var(--paper), var(--paper-2));
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.4) inset, 0 16px 40px -28px var(--shadow);
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-family: var(--font-sans), sans-serif;
+  font-size: 0.74rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  padding: 0.28rem 0.7rem;
+  border-radius: 999px;
+  border: 1px solid var(--line-strong);
+  background: color-mix(in srgb, var(--paper) 70%, transparent);
+  color: var(--ink-soft);
+}
+
+/* ----------------------------------------------------------------------------
+   Citations
+---------------------------------------------------------------------------- */
+.cite {
+  position: relative;
+  display: inline;
+  font-family: var(--font-sans), sans-serif;
+  font-size: 0.72em;
+  font-weight: 600;
+  vertical-align: super;
+  line-height: 0;
+}
+.cite a {
+  color: var(--accent);
+  text-decoration: none;
+  padding: 0 1px;
+}
+.cite a:hover { color: var(--accent-soft); }
+
+.cite .tooltip {
+  position: absolute;
+  bottom: 140%;
+  left: 50%;
+  transform: translateX(-50%) translateY(6px);
+  width: max(240px, 18rem);
+  max-width: 80vw;
+  background: var(--ink);
+  color: var(--paper);
+  font-family: var(--font-sans), sans-serif;
+  font-size: 0.74rem;
+  font-weight: 400;
+  line-height: 1.45;
+  letter-spacing: 0;
+  vertical-align: baseline;
+  padding: 0.65rem 0.8rem;
+  border-radius: 10px;
+  box-shadow: 0 18px 40px -16px rgba(0, 0, 0, 0.6);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.18s ease, transform 0.18s ease;
+  z-index: 60;
+}
+.cite .tooltip::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 6px solid transparent;
+  border-top-color: var(--ink);
+}
+.cite:hover .tooltip,
+.cite:focus-within .tooltip {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+  pointer-events: auto;
+}
+
+/* reference list */
+.ref-item {
+  scroll-margin-top: 100px;
+  border-radius: 12px;
+  transition: background-color 0.5s ease;
+}
+.ref-item:target {
+  background: color-mix(in srgb, var(--gold) 22%, transparent);
+}
+
+/* ----------------------------------------------------------------------------
+   Buttons & interactive
+---------------------------------------------------------------------------- */
+.btn {
+  font-family: var(--font-sans), sans-serif;
+  font-weight: 600;
+  font-size: 0.86rem;
+  border-radius: 999px;
+  padding: 0.6rem 1.15rem;
+  border: 1px solid var(--line-strong);
+  background: var(--paper);
+  color: var(--ink);
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.2s ease, background 0.2s ease, color 0.2s ease;
+}
+.btn:hover { transform: translateY(-1px); box-shadow: 0 10px 24px -14px var(--shadow); }
+.btn-accent {
+  background: var(--accent-bg);
+  color: var(--on-accent);
+  border-color: transparent;
+}
+.btn-accent:hover { background: var(--accent-soft); color: var(--on-accent); }
+
+.focus-ring:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px var(--ring);
+}
+
+/* hide scrollbars on horizontal rails */
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+/* ----------------------------------------------------------------------------
+   Imagery — period photos, unified with a subtle sepia treatment
+---------------------------------------------------------------------------- */
+.media-img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: var(--img-filter);
+}
+
+/* Hero portrait — ornate gilt double frame */
+.portrait-frame {
+  position: relative;
+  border-radius: 14px;
+  padding: 10px;
+  background: linear-gradient(150deg, var(--gold-soft), var(--gold) 45%, #6b4e08);
+  box-shadow: 0 30px 60px -30px var(--shadow), 0 2px 0 rgba(255, 255, 255, 0.25) inset;
+}
+.portrait-frame > .portrait-inner {
+  position: relative;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid rgba(0, 0, 0, 0.25);
+  aspect-ratio: 3 / 4;
+}
+.portrait-frame > .portrait-inner::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 55%, color-mix(in srgb, var(--accent) 30%, transparent));
+  mix-blend-mode: multiply;
+  pointer-events: none;
+}
+
+/* Figures with captions */
+figure.figure {
+  margin: 0;
+  border-radius: 14px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  background: linear-gradient(160deg, var(--paper), var(--paper-2));
+  box-shadow: 0 16px 40px -28px var(--shadow);
+}
+figure.figure .frame {
+  position: relative;
+  overflow: hidden;
+}
+figure.figure figcaption {
+  font-family: var(--font-sans), sans-serif;
+  font-size: 0.78rem;
+  line-height: 1.45;
+  color: var(--ink-soft);
+  padding: 0.7rem 0.9rem;
+  border-top: 1px solid var(--line);
+}
+figure.figure figcaption .credit {
+  color: var(--ink-faint);
+  font-style: italic;
+}
+
+/* small framed thumbnail (e.g., parents in the Family tab) */
+.thumb-frame {
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid var(--line-strong);
+  background: var(--paper-2);
+  box-shadow: 0 10px 24px -18px var(--shadow);
+}
+
+/* wide historical band */
+.band {
+  position: relative;
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  box-shadow: 0 24px 60px -34px var(--shadow);
+}
+.band .band-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: flex-end;
+  background: linear-gradient(180deg, transparent 30%, color-mix(in srgb, #1a0d0a 78%, transparent));
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  * { animation-duration: 0.001ms !important; transition-duration: 0.001ms !important; }
+}
