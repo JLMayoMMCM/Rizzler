@@ -68,7 +68,7 @@ export default function SiteHeader() {
             letterSpacing: "0.01em",
           }}
         >
-          <span style={{ color: "var(--accent)" }}>Rizal</span> · Shaping of a Hero
+          <span style={{ color: "var(--accent)" }}>Rizal</span> · Making of a National Hero
         </a>
 
         <nav

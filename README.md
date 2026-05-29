@@ -1,4 +1,4 @@
-# The Shaping of a Hero — José Rizal's Character Development
+# The Making of a National Hero — José Rizal's Character Development
 
 An interactive, single-page blog essay built with **Next.js (App Router) + TypeScript + Tailwind CSS v4 + Framer Motion**. It explores the biological, environmental, and lived forces that shaped José Rizal into the Philippines' foremost national hero — with **IEEE-style citations linked to their sources**.
 

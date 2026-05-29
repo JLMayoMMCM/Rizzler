@@ -18,7 +18,7 @@ export default function Hero() {
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
   const y = useTransform(scrollYProgress, [0, 1], [0, 120]);
   const opacity = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
-  const titleWords = ["The", "Shaping", "of", "a", "Hero"];
+  const titleWords = ["The", "Making", "of", "a", "National", "Hero"];
 
   return (
     <section

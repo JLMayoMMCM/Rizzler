@@ -19,7 +19,7 @@ const sans = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "The Shaping of a Hero · José Rizal's Character Development",
+  title: "The Making of a National Hero · José Rizal's Character Development",
   description:
     "An interactive essay on the biological, environmental, and lived forces that shaped José Rizal into the Philippines' foremost national hero — with IEEE-cited sources.",
   authors: [{ name: "Interactive Essay" }],

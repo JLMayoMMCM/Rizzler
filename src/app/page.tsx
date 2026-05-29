@@ -341,7 +341,7 @@ export default function Home() {
       >
         <div className="shell">
           <p style={{ margin: "0 0 0.3rem" }}>
-            &ldquo;The Shaping of a Hero&rdquo; &mdash; an interactive essay on José Rizal&rsquo;s character
+            &ldquo;The Making of a National Hero&rdquo; &mdash; an interactive essay on José Rizal&rsquo;s character
             development.
           </p>
           <p style={{ margin: "0 0 0.3rem" }}>
